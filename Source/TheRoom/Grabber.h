@@ -38,6 +38,13 @@ private:
 
 	// Ray cast and grab whats in reach
 	void Grab();
+
+	// Called when Grab is released
 	void Release();
+
+	void FindPhysicsHandleComponent();
+
+	// Setup input component
+	void SetupInputComponent();
 
 };
