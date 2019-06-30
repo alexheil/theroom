@@ -59,8 +59,30 @@ void UGrabber::Grab()
 	UE_LOG(LogTemp, Warning, TEXT("Grab pressed."));
 
 	/// Try and reach any actors with a physics body collision set
+	GetFirstPhysicsBodyInReach();
+	/// If we hit something attach a physics handle
+}
 
-		// Get player veiwpoint this tick
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Release pressed."));
+
+	// release physics handle
+}
+
+// Called every frame
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	// if physics handle is attached
+	// move object we are holding
+
+}
+
+const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
+{
+	// Get player veiwpoint this tick
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewPointLocation, OUT PlayerViewPointRotation);
@@ -86,26 +108,9 @@ void UGrabber::Grab()
 	AActor* ActorHit = Hit.GetActor();
 	if (ActorHit)
 	{
-		/// If we hit something attach a physics handle
 		UE_LOG(LogTemp, Warning, TEXT("Line trace hit: %s"), *(ActorHit->GetName()));
 	}
 
-}
-
-void UGrabber::Release()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Release pressed."));
-
-	// release physics handle
-}
-
-// Called every frame
-void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// if physics handle is attached
-	// move object we are holding
-
+	return FHitResult();
 }
 
