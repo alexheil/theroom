@@ -22,6 +22,21 @@ void UGrabber::BeginPlay()
 	SetupInputComponent();
 }
 
+// Called every frame
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!PhysicsHandle) { return; }
+	// if physics handle is attached
+	if (PhysicsHandle->GrabbedComponent)
+	{
+		// move object we are holding
+		PhysicsHandle->SetTargetLocation(GrabDistanceFromPlayer());
+	}
+
+}
+
 /// Look for attached physics handle
 void UGrabber::FindPhysicsHandleComponent() 
 {
@@ -63,13 +78,13 @@ void UGrabber::Grab()
 	if (ActorHit)
 	{
 		// attach physics handle
+		if (!PhysicsHandle) { return; }
 		PhysicsHandle->GrabComponentAtLocation(
 			ComponentToGrab,
 			NAME_None,
 			ComponentToGrab->GetOwner()->GetActorLocation()
 			);
 	}
-
 }
 
 void UGrabber::Release()
@@ -77,21 +92,8 @@ void UGrabber::Release()
 	UE_LOG(LogTemp, Warning, TEXT("Release pressed."));
 
 	// release physics handle
+	if (!PhysicsHandle) { return; }
 	PhysicsHandle->ReleaseComponent();
-}
-
-// Called every frame
-void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// if physics handle is attached
-	if (PhysicsHandle->GrabbedComponent)
-	{
-		// move object we are holding
-		PhysicsHandle->SetTargetLocation(GrabDistanceFromPlayer());
-	}
-
 }
 
 const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
