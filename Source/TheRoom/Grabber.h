@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/PrimitiveComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Grabber.generated.h"
 
@@ -49,6 +50,6 @@ private:
 
 	// Return hit for first physics body in reach
 	const FHitResult GetFirstPhysicsBodyInReach();
-	
+
 
 };
