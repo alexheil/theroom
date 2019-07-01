@@ -8,6 +8,8 @@
 #include "Engine/TriggerVolume.h"
 #include "OpenDoor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOpenRequest);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class THEROOM_API UOpenDoor : public UActorComponent
@@ -20,6 +22,9 @@ public:
 	void OpenDoor();
 	void CloseDoor();
 
+	UPROPERTY(BlueprintAssignable)
+	FOnOpenRequest OnOpenRequest;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -31,7 +36,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere)
-	float OpenAngle = -60.f;
+	float OpenAngle = -90.f;
 
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate = nullptr;
